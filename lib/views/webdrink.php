@@ -48,6 +48,9 @@
                     <li><a href="#contact">Logs</a></li>
                     <li><a href="#contact">Temps</a></li>
                 </ul>
+                <ul class="nav pull-right">
+                    <li><a href="#"><?=$cn?> (<span id="credits"></span> credits)</a></li>
+                </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
@@ -70,117 +73,39 @@
     </div>
     <div class="modal fade" id="drop_modal">
         <div class="modal-header">
-            <h3>Dropping Your Drink</h3>
+            <h3>Drop Delay</h3>
         </div>
         <div class="modal-body">
-            <p>Dropping in 10s...</p>
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label for="drop_delay">Drop Delay</label>
+                    <div class="controls">
+                        <input type="number" class="input-large" id="drop_delay" value="0" min="0">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-success" btn-action="submit_drop_delay" value="Drop">
+            <input type="button" class="btn btn-danger" btn-action="cancel_drop" value="Cancel">
+        </div>
+    </div>
+    <div class="modal fade" id="dropping_modal">
+        <div class="modal-header">
+            <h3>Dropping Drink</h3>
+        </div>
+        <div class="modal-body" id="dropping_modal_body">
+            Dropping in <span id="drop_countdown"></span>s...
         </div>
     </div>
     <div class="alert">
-        <a class="close">×</a>
         <strong>Warning!</strong> Web socket not connected!
     </div>
+    <div class="alert alert-error hide" id="invalid_ibutton">
+        <strong>Error!</strong> Invalid iButton number!
+    </div>
     <!-- Example row of columns -->
-    <div class="row">
-        <div class="span12">
-            <h2>Big Drink</h2>
-
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>Slot</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Available</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" btn-action="drop" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" btn-action="drop" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" btn-action="drop" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="span12">
-            <h2>Little Drink</h2>
-
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>Slot</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Available</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Coke</td>
-                        <td>40</td>
-                        <td>10</td>
-                        <td>
-                            <input type="button" class="btn btn-primary" value="Drop">
-                            <input type="button" class="btn btn-info" value="Edit">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <hr>
+    <div id="machines"></div>
     <footer>
         <a href="https://github.com/ComputerScienceHouse/Drink-JS">Github Page</a>
     </footer>
@@ -207,8 +132,11 @@
 
 <!-- webdrink shitz -->
 <script type="text/javascript">
-    var ibutton = '<?=$ibutton?>';
+    var page_data = <?=$page_data?>;
+    var pending_drop = null;
+
 </script>
+<script type="text/javascript" src="<?=site_url('js/handlebars.js')?>"></script>
 <!--<script type="text/javascript" src="<?=site_url('js/logger.js')?>"></script>
 <script type="text/javascript" src="<?=site_url('js/chosen/chosen/chosen.jquery.min.js')?>"></script>
 <script type="text/javascript" src="<?=site_url('js/mustache/mustache.js')?>"></script>

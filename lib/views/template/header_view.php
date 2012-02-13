@@ -23,7 +23,7 @@
                 CSH Drink
             </div>
             <div class="right">
-                Hello, <?=$_SESSION['loggedIn']['cn']?> (<?=$_SESSION['loggedIn']['drink_credits']?> credits)
+                Hello, <?=$_SESSION['drink_loggedIn']['cn']?> (<?=$_SESSION['drink_loggedIn']['drink_credits']?> credits)
             </div>
         </div>
         <div class="navigation">
@@ -31,7 +31,7 @@
                 <a href="#" class="tab-link" tab_id="machines"><li>Machines</li></a>
                 <a href="#" class="tab-link" tab_id="user_drops"><li>Your Drops</li></a>
             <?php
-                if((bool)$_SESSION['loggedIn']['drink_admin'] == true)
+                if((bool)$_SESSION['drink_loggedIn']['drink_admin'] == true)
                 {
             ?>
                 <a href="#" class="tab-link" tab_id="admin"><li>User Admin</li></a>

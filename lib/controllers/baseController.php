@@ -19,7 +19,7 @@ class lib_controllers_baseController extends core_controller
         $this->drink = core_loadFactory::get_inst('lib_libraries_drink', 'drink');
 
 
-        if(!isset($_SESSION['loggedIn']))
+        if(!isset($_SESSION['drink_loggedIn']))
         {
             $user_data = array();
             $user_data['cn'] = $_SERVER['WEBAUTH_LDAP_CN'];
@@ -28,10 +28,10 @@ class lib_controllers_baseController extends core_controller
             $user_data['drink_admin'] = $this->drink->is_user_drink_admin($user_data['uid']);
 
 
-            $_SESSION['loggedIn'] = $user_data;
+            $_SESSION['drink_loggedIn'] = $user_data;
             
         }
 
-        $_SESSION['loggedIn']['drink_credits'] = $this->drink->get_user_credits($_SESSION['loggedIn']['uid']);
+        $_SESSION['drink_loggedIn']['drink_credits'] = $this->drink->get_user_credits($_SESSION['drink_loggedIn']['uid']);
     }
 }

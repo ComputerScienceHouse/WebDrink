@@ -20,6 +20,29 @@ class lib_libraries_pageFramework
         $this->load = core_loadFactory::get_inst('core_load', 'load');
     }
 
+    public function add_page_var($key, $val)
+    {
+        if($this->page_vars == null)
+        {
+            $this->page_vars = array();
+        }
+
+        $this->page_vars[$key] = $val;
+    }
+
+    public function add_page_vars($vars)
+    {
+        if($this->page_vars == null)
+        {
+            $this->page_vars = array();
+        }
+
+        foreach($vars as $key => $val)
+        {
+            $this->page_vars[$key] = $val;
+        }
+    }
+
     public function load_javascript($source)
     {
         $this->javascript[] = $source;

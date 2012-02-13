@@ -24,7 +24,7 @@
                 <td><div class="slot" field_name="available" slot_id="<?=$slot['slot_num']?>" machine_id="<?=$machine['machine_id']?>" contenteditable="false"><?=$slot['available']?></div></td>
                 <td>
                 <?php
-                if($slot['available'] > 0 && $slot['status'] == 'enabled' && $_SESSION['loggedIn']['drink_credits'] >= $slot['item_price'])
+                if($slot['available'] > 0 && $slot['status'] == 'enabled' && $_SESSION['drink_loggedIn']['drink_credits'] >= $slot['item_price'])
                 {
                 ?>
                     <input type="button" class="action-button green" action="drop" machine_alias="<?=$machine['alias']?>" machine_id="<?=$machine['machine_id']?>" slot_id="<?=$slot['slot_num']?>" value="Drop">
@@ -38,7 +38,7 @@
                 <?php
                 }
 
-                if($_SESSION['loggedIn']['drink_admin'])
+                if($_SESSION['drink_loggedIn']['drink_admin'])
                 {
                 ?>
                     <input type="button" class="action-button orange" action="edit" machine_id="<?=$machine['machine_id']?>" slot_id="<?=$slot['slot_num']?>" value="Edit">
@@ -64,7 +64,7 @@
             ?>
         </table>
         <?php
-            if($_SESSION['loggedIn']['drink_admin'])
+            if($_SESSION['drink_loggedIn']['drink_admin'])
             {
         ?>
             <input type="button" class="action-button green" action="new_slot" machine_id="<?=$machine['machine_id']?>" value="+ New Slot">

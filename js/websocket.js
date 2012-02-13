@@ -44,11 +44,24 @@ function WebsocketConn(ibutton){
     self.socket = io.connect('https://drink.csh.rit.edu:8080', {secure: true});
     self.init_ws_events(function(){
         self.connect();
+        self.init_click_events();
     });
 };
 
 WebsocketConn.prototype.init_click_events = function(){
     var self = this;
+
+    $('#drop_modal input:button[btn-action="submit_drop_delay"]').on('click', function(){
+        var drop_data = pending_drop;
+
+        var delay = $(this).parent().parent().find('input[type="number"]').val();
+
+        self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
+    });
+
+    $('#drop_modal input:button[btn-action="cancel_drop"]').on('click', function(){
+        $('#drop_modal').modal('hide');
+    });
 };
 
 WebsocketConn.prototype.init_ws_events = function(cb){
@@ -75,6 +88,11 @@ WebsocketConn.prototype.init_ws_events = function(cb){
 
     self.socket.on('drop_recv', function(data){
         console.log('drop_recv');
+        self.process_incoming_data(data);
+    });
+
+    self.socket.on('balance_recv', function(data){
+        console.log('balance_recv');
         self.process_incoming_data(data);
     });
 
@@ -141,11 +159,19 @@ WebsocketConn.prototype.connect = function(){
     var self = this;
 
     var callback = function(data){
-        self.authed = true;
+
+        if(data.substr(0, 2) == 'OK'){
+            self.authed = true;
+            data = data.split(': ');
+            $('#credits').html(data[1]);
+        } else {
+            self.authed = false;
+            $('#invalid_ibutton').slideToggle();
+        }
     };
 
     var command = function(){
-        self.socket.emit('ibutton', {ibutton: ibutton});
+        self.socket.emit('ibutton', {ibutton: self.ibutton});
     };
 
     var req = new Request(command, callback);
@@ -153,8 +179,56 @@ WebsocketConn.prototype.connect = function(){
     self.prep_request(req);
 };
 
-WebsocketConn.prototype.drop = function(){
+WebsocketConn.prototype.drop = function(slot_num, machine_alias, delay){
     var self = this;
+
+    var machine_command = function(){
+        self.socket.emit('machine', {machine_id: machine_alias});
+    };
+
+    var machine_callback = function(data){
+        var drop_command = function(){
+            $('#drop_modal').modal('hide');
+            $('#dropping_modal').modal({
+                keyboard: false
+            });
+
+            self.socket.emit('drop', {slot_num: slot_num, delay: delay});
+
+            var interval_id = setInterval(function(){
+                $('#drop_countdown').html(delay);
+                delay--;
+
+                if(delay == -1){
+                    clearInterval(interval_id);
+                }
+            }, 1000);
+        };
+
+        var drop_callback = function(data){
+            console.log('received drop data');
+            console.log(data);
+
+            if(data.substr(0, 2) == 'OK'){
+                $('#dropping_modal_body').html('Dropping, run!!');
+
+                self.get_balance();
+
+            } else {
+                $('#dropping_modal_body').html(data);
+            }
+        };
+
+        var drop_req = new Request(drop_command, drop_callback);
+
+        self.prep_request(drop_req);
+
+
+    };
+
+    var req = new Request(machine_command, machine_callback);
+
+    self.prep_request(req);
 };
 
 WebsocketConn.prototype.stat = function(){
@@ -176,6 +250,41 @@ WebsocketConn.prototype.stat = function(){
 WebsocketConn.prototype.machine = function(machine_alias){
     var self = this;
 
+    var callback = function(data){
+        self.process_queue();
+    };
 
+    var command = function(){
+        self.socket.emit('machine', {machine_id: machine_alias});
+    };
+
+    var req = new Request(command, callback);
+
+    self.prep_request(req);
+};
+
+WebsocketConn.prototype.get_balance = function(){
+    var self = this;
+
+    var callback = function(data){
+
+        if(data.substr(0, 2) == 'OK'){
+            data = data.split(': ');
+            $('#credits').html(data[1]);
+        } else {
+            self.authed = false;
+            $('#invalid_ibutton').slideToggle();
+        }
+
+        self.process_queue();
+    };
+
+    var command = function(){
+        self.socket.emit('getbalance', {});
+    };
+
+    var req = new Request(command, callback);
+
+    self.prep_request(req);
 };
 

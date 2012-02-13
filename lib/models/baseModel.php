@@ -17,7 +17,7 @@ class lib_models_baseModel extends core_model
 
         $config = $this->load->load_json_config('db_config.json');
 
-        $this->db = new mysqli($config['hostname'], $config['username'], $config['passowrd'], $config['db']);
+        $this->db = new mysqli($config['hostname'], $config['username'], $config['password'], $config['db']);
     }
 
     public function query($sql)

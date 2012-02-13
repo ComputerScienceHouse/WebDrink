@@ -14,7 +14,7 @@ class lib_controllers_admin extends lib_controllers_baseController
     {
         parent::__construct();
         //var_dump($_SESSION);
-        if(!$_SESSION['loggedIn']['drink_admin'])
+        if(!$_SESSION['drink_loggedIn']['drink_admin'])
         {
             echo json_encode(array('status' => 'false', 'msg' => 'permission denied'));
 
@@ -199,7 +199,7 @@ class lib_controllers_admin extends lib_controllers_baseController
                     $direction = 'out';
                 }
 
-                $this->admin_model->insert_money_log($post['uid'], $_SESSION['loggedIn']['uid'], intval($post['credits']), $direction, $reason);
+                $this->admin_model->insert_money_log($post['uid'], $_SESSION['drink_loggedIn']['uid'], intval($post['credits']), $direction, $reason);
 
                 if($res)
                 {
