@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSH Web Drink</title>
+        <link href="css/stylesheets/screen.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+        <script type="text/javascript" src="js/mustache/mustache.js"></script>
+        <script type="text/javascript" src="js/tabs.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <div class="logo">
+                CSH Drink
+            </div>
+            <div class="right">
+                Hello, Sean McGary (9000 credits)
+            </div>
+        </div>
+        <div class="navigation">
+            <ul id="tabs">
+                <a href="#" class="tab-link" tab_id="machines"><li>Machines</li></a>
+                <a href="#" class="tab-link" tab_id="admin"><li>User Admin</li></a>
+                <a href="#" class="tab-link" tab_id="temps"><li>Temps</li></a>
+                <a href="#" class="tab-link" tab_id="logs"><li>Logs</li></a>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="tab-content" tab_content_id="machines">
+                <div class="machine">
+                    <h2>Big Drink</h2>
+                    <table class="machine-table" id="d">
+                        <tr>
+                            <th>Slot</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Available</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr slot_id="1">
+                            <td>1</td>
+                            <td><div class="slot" field_name="name" slot_id="1" machine_id="d" contenteditable="false">IBC Rootbeer</div></td>
+                            <td><div class="slot" field_name="price" slot_id="1" machine_id="d" contenteditable="false">10</div></td>
+                            <td><div class="slot" field_name="available" slot_id="1" machine_id="d" contenteditable="false">7</div></td>
+                            <td>
+                                <input type="button" class="action-button green" action="drop" value="Drop">
+                                <input type="button" class="action-button orange" action="edit" machine_id="d" slot_id="1" value="Edit">
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="button" class="action-button green" action="new_slot" machine_id="d" value="+ New Slot">
+                </div>
+                <div class="machine">
+                    <h2>Little Drink</h2>
+
+                </div>
+                <div class="machine">
+                    <h2>Snack Drink</h2>
+
+                </div>
+            </div>
+            <div class="tab-content" tab_content_id="admin">
+                admin
+            </div>
+            <div class="tab-content" tab_content_id="temps">
+                temps
+            </div>
+            <div class="tab-content" tab_content_id="logs">
+                logs
+            </div>
+        </div>
+    </body>
+</html>

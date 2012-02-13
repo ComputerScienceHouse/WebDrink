@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <script src="http://drink.csh.rit.edu:8080/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://drink.csh.rit.edu:8080');
+            socket.emit('ibutton', {ibutton: 'F700000E4224C801'});
+
+            socket.on('connect', function(){
+                console.log('connected');
+            });
+
+            socket.on('stat_recv', function(data){
+                console.log(data);
+            });
+
+            socket.on('ibutton_recv', function(data){
+                console.log(data);
+            });
+
+            socket.on('disconnect', function(){
+
+            });
+
+            socket.on('close', function(){
+
+            });
+
+            socket.on('reconnect', function(){
+
+            });
+
+            socket.on('reconnecting', function(){
+                console.log('reconnected');
+            });
+
+
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
