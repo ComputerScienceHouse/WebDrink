@@ -104,7 +104,7 @@ WebsocketConn.prototype.init_ws_events = function(cb){
     });
 
     self.socket.on('reconnecting', function(){
-        console.log('reconnected');
+        //console.log('reconnected');
     });
 
     cb();
@@ -140,7 +140,7 @@ WebsocketConn.prototype.process_incoming_data = function(data){
     if(self.current_request != null){
         self.current_request.run_callback(data);
     } else {
-        console.log(data);
+        //console.log(data);
     }
 
     self.current_request = null;

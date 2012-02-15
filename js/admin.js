@@ -8,7 +8,6 @@
 $(document).ready(function(){
     $('#search_user').on('submit', function(){
         var results = $('#search_user_results');
-        console.log('test');
         if($('#username').val().length > 0){
             Ext.Ajax.request({
                 url: page_data.search_user,
@@ -17,9 +16,6 @@ $(document).ready(function(){
                     var obj = Ext.decode(response.responseText);
 
                     if(obj.status == 'true'){
-                        console.log('success');
-                        console.log(obj);
-
                         var form = Handlebars.compile(manage_user_form);
                         form = form(obj.user);
 
@@ -38,7 +34,7 @@ $(document).ready(function(){
                 }
             });
         } else {
-            console.log('fill in username');
+
         }
 
         return false;
@@ -57,11 +53,10 @@ $(document).ready(function(){
                     var obj = Ext.decode(response.responseText);
 
                     if(obj.status == 'true'){
-                        console.log(obj);
                         $('#curr_credits').html(obj.credits);
                         $('#credits').html(obj.credits);
                     } else {
-                        console.log('error');
+                        //console.log('error');
                     }
                 },
                 failure: function(response, opts){
@@ -86,22 +81,17 @@ $(document).ready(function(){
                 state: $('#state').val()
             };
 
-        console.log(form_data);
-
         Ext.Ajax.request({
             url: page_data.save_slot_data,
             success: function(response, opts){
                 var obj = Ext.decode(response.responseText);
 
-                console.log(obj);
-
                 if(obj.status == 'true'){
-                    console.log('success');
                     process_machines($('#machines'), obj.machines);
                     get_user_drops($('#user_drops'));
                     $('#edit_modal').modal('hide');
                 } else {
-                    console.log('fail');
+                    //console.log('fail');
                 }
             },
             failure: function(response, opts){

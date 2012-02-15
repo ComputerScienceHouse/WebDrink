@@ -150,12 +150,8 @@ function get_user_drops(selector){
         success: function(response, opts){
             var obj = Ext.decode(response.responseText);
 
-            console.log(obj);
-
             var drops = Handlebars.compile(user_drops);
             drops = drops({drops: obj});
-
-            console.log(drops);
 
             $('#user_drops').html(drops);
         },
