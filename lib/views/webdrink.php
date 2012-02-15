@@ -18,7 +18,7 @@
                 padding-bottom: 40px;
             }
         </style>
-        <!--<link href="<?=site_url('css/bootstrap/bootstrap/bootstrap-responsive.css')?>" rel="stylesheet">--?
+        <link href="<?=site_url('css/bootstrap/bootstrap/css/bootstrap-responsive.css')?>" rel="stylesheet">
 
         <!-- Le fav and touch icons -->
         <link rel="shortcut icon" href="images/favicon.ico">
