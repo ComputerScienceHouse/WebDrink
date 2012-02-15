@@ -98,6 +98,7 @@ $(document).ready(function(){
                 if(obj.status == 'true'){
                     console.log('success');
                     process_machines($('#machines'), obj.machines);
+                    get_user_drops($('#user_drops'));
                     $('#edit_modal').modal('hide');
                 } else {
                     console.log('fail');
