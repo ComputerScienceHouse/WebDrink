@@ -228,7 +228,9 @@
                 }
             ?>
             <footer>
-                <a href="https://github.com/ComputerScienceHouse/Drink-JS">Github Page</a>
+                <a href="https://github.com/ComputerScienceHouse/Drink-JS">ComputerScienceHouse/Drink-JS</a>
+                <a href="https://github.com/ComputerScienceHouse/WebDrink">ComputerScienceHouse/WebDrink</a>
+                Made by <a href="https://github.com/seanmcgary">Sean McGary</a>
             </footer>
         </div>
     </body>
