@@ -13,6 +13,20 @@ class lib_controllers_main extends lib_controllers_baseController
 
     public function index()
     {
+        $rendered_data['machines'] = $this->machine_model->get_machines_with_slots();
+        $rendered_data['ibutton'] = $this->drink->get_user_ibutton($_SERVER['WEBAUTH_USER']);
+        $rendered_data['search_user'] = site_url('admin/get_user_for_uid');
+        $rendered_data['edit_credits'] = site_url('admin/edit_credits');
+        $rendered_data['get_slot_data'] = site_url('api/get_slot_data');
+        $rendered_data['save_slot_data'] = site_url('admin/edit_slot');
+        $rendered_data['user_drops'] = site_url('api/get_user_drops/'. $_SESSION['drink_loggedIn']['uid']);;
+
+        $this->load->view('webdrink', array('page_data' => json_encode($rendered_data), 'cn' => $_SERVER['WEBAUTH_LDAP_CN']));
+    }
+
+
+    public function index2()
+    {
         $data['machines'] = $this->machine_model->get_machines_with_slots();
 
         $data['items'] = $this->item_model->get_all_items();
@@ -39,15 +53,6 @@ class lib_controllers_main extends lib_controllers_baseController
 
         
         $this->page->render('mainIndex_view', $rendered_data);
-    }
-
-    public function index2()
-    {
-        $rendered_data['machines'] = $this->machine_model->get_machines_with_slots();
-        $rendered_data['machine_template'] = $this->load->view('mustache_templates/machines', array(), true);
-        $rendered_data['ibutton'] = $this->drink->get_user_ibutton($_SERVER['WEBAUTH_USER']);
-
-        $this->load->view('webdrink', array('page_data' => json_encode($rendered_data), 'cn' => $_SERVER['WEBAUTH_LDAP_CN']));
     }
 
     public function logout()

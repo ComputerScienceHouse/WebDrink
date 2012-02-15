@@ -13,7 +13,7 @@ class lib_models_itemModel extends lib_models_baseModel
 
     public function get_all_items()
     {
-        return $this->query("SELECT * FROM drink_items WHERE state='active' ORDER BY item_id ASC")->result_array();
+        return $this->query("SELECT * FROM drink_items WHERE state='active' ORDER BY item_name ASC")->result_array();
     }
 
     public function get_item_details($item_id)

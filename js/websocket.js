@@ -68,44 +68,39 @@ WebsocketConn.prototype.init_ws_events = function(cb){
     var self = this;
 
     self.socket.on('connect', function(){
-        console.log('ws connected');
+        $('#websocket_status_alert').css('display', 'none');
     });
 
     self.socket.on('stat_recv', function(data){
-        console.log("stat_recv");
         self.process_incoming_data(data);
     });
 
     self.socket.on('ibutton_recv', function(data){
-        console.log('ibutton_recv');
         self.process_incoming_data(data);
     });
 
     self.socket.on('machine_recv', function(data){
-        console.log('machine_recv');
         self.process_incoming_data(data);
     });
 
     self.socket.on('drop_recv', function(data){
-        console.log('drop_recv');
         self.process_incoming_data(data);
     });
 
     self.socket.on('balance_recv', function(data){
-        console.log('balance_recv');
         self.process_incoming_data(data);
     });
 
     self.socket.on('disconnect', function(){
-
+        $('#websocket_status_alert').css('display', 'block');
     });
 
     self.socket.on('close', function(){
-
+        $('#websocket_status_alert').css('display', 'block');
     });
 
     self.socket.on('reconnect', function(){
-
+        $('#websocket_status_alert').css('display', 'block');
     });
 
     self.socket.on('reconnecting', function(){
@@ -145,7 +140,6 @@ WebsocketConn.prototype.process_incoming_data = function(data){
     if(self.current_request != null){
         self.current_request.run_callback(data);
     } else {
-        console.log("no callback");
         console.log(data);
     }
 
@@ -206,8 +200,6 @@ WebsocketConn.prototype.drop = function(slot_num, machine_alias, delay){
         };
 
         var drop_callback = function(data){
-            console.log('received drop data');
-            console.log(data);
 
             if(data.substr(0, 2) == 'OK'){
                 $('#dropping_modal_body').html('Dropping, run!!');

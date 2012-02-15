@@ -13,6 +13,7 @@ class lib_controllers_baseController extends core_controller
         $this->load_model('lib_models_adminModel', 'admin_model');
         $this->load_model('lib_models_itemModel', 'item_model');
         $this->load_model('lib_models_userModel', 'user_model');
+        $this->load_model('lib_models_tempModel', 'temp_model');
 
         $this->page = core_loadFactory::get_inst('lib_libraries_pageFramework', 'page');
 
@@ -26,7 +27,6 @@ class lib_controllers_baseController extends core_controller
             $user_data['uid'] = $_SERVER['WEBAUTH_USER'];
 
             $user_data['drink_admin'] = $this->drink->is_user_drink_admin($user_data['uid']);
-
 
             $_SESSION['drink_loggedIn'] = $user_data;
             

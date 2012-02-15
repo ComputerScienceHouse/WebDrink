@@ -54,7 +54,7 @@ class lib_controllers_admin extends lib_controllers_baseController
     {
         if($this->auth)
         {
-            $post_list = array('old_slot_num', 'item_id', 'available', 'slot_num', 'machine_id');
+            $post_list = array('available', 'state', 'item_id', 'slot_num', 'machine_id');
 
             $post = $this->input->post_array($post_list);
 
@@ -63,22 +63,19 @@ class lib_controllers_admin extends lib_controllers_baseController
 
             foreach($post as $key => &$value)
             {
-
-                if($value == '' && $key != 'old_slot_num')
+                if($value == '')
                 {
                     $errors = true;
                     $error_msg = 'Please fill in all fields';
                     break;
-                } else {
-                    $value = str_replace('<br>', '', $value);
                 }
             }
 
             if($errors == false)
             {
-                $res = $this->machine_model->update_slot($post['old_slot_num'], $post['machine_id'], $post);
-
-                echo json_encode(array('status' => 'true', 'item_id' => $post['item_id'], 'slot_id' => $post['slot_num']));
+                $res = $this->machine_model->update_slot($post['slot_num'], $post['machine_id'], $post);
+                $machines = $this->machine_model->get_machines_with_slots();
+                echo json_encode(array('status' => 'true', 'machines' => $machines));
             }
             else
             {
@@ -132,9 +129,8 @@ class lib_controllers_admin extends lib_controllers_baseController
                 $user['uid'] = $uid;
                 $user['cn'] = $res['cn'][0];
 
-                $user_view = $this->load->view('presenters/user', $user, true);
 
-                echo json_encode(array('status' => 'true', 'user' => $user_view));
+                echo json_encode(array('status' => 'true', 'user' => $user));
             }
             else
             {
