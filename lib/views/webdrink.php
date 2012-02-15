@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Bootstrap, from Twitter</title>
+        <title>CSH WebDrink</title>
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -228,9 +228,15 @@
                 }
             ?>
             <footer>
-                <a href="https://github.com/ComputerScienceHouse/Drink-JS">ComputerScienceHouse/Drink-JS</a>
-                <a href="https://github.com/ComputerScienceHouse/WebDrink">ComputerScienceHouse/WebDrink</a>
-                Made by <a href="https://github.com/seanmcgary">Sean McGary</a>
+                <div class="row">
+                    <div class="span4">
+                        <a href="https://github.com/ComputerScienceHouse/Drink-JS">ComputerScienceHouse/Drink-JS</a>
+                        <a href="https://github.com/ComputerScienceHouse/WebDrink">ComputerScienceHouse/WebDrink</a>
+                    </div>
+                    <div class="span4">
+                        Made by <a href="https://github.com/seanmcgary">Sean McGary</a>
+                    </div>
+                </div>
             </footer>
         </div>
     </body>

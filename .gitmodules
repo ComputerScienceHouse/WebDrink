@@ -1,12 +1,3 @@
-[submodule "test"]
-	path = test
-	url = git@github.com:seanmcgary/foundation-php-testing.git
-[submodule "js/mustache"]
-	path = js/mustache
-	url = https://github.com/janl/mustache.js.git
-[submodule "js/chosen"]
-	path = js/chosen
-	url = https://github.com/harvesthq/chosen.git
 [submodule "core"]
 	path = core
 	url = git@github.com:seanmcgary/foundation-php-core.git
