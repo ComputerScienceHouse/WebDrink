@@ -55,7 +55,7 @@ var manage_user_form = '' +
 var user_drops = ''+
     '<div class="tab-content global-tab" tab_content_id="user_drops">' +
         '<h2>Your Drop History</h2>' +
-        '<table class="machine-table">' +
+        '<table class="table table-condensed table-striped">' +
             '<thead>' +
                 '<tr>' +
                     '<th>Time</th>'+
