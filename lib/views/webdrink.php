@@ -18,7 +18,7 @@
                 padding-bottom: 40px;
             }
         </style>
-        <link href="<?=site_url('css/bootstrap/bootstrap/css/bootstrap-responsive.css')?>" rel="stylesheet">
+        <!--<link href="<?=site_url('css/bootstrap/bootstrap/css/bootstrap-responsive.css')?>" rel="stylesheet">-->
 
         <!-- Le fav and touch icons -->
         <link rel="shortcut icon" href="images/favicon.ico">
@@ -54,6 +54,9 @@
             {
         ?>
         <script type="text/javascript" src="<?=site_url('js/admin.js')?>"></script>
+        <script type="text/javascript">
+            window.current_user = '<?=$_SESSION['drink_loggedIn']['uid']?>';
+        </script>
         <?php
             }
         ?>
@@ -72,15 +75,15 @@
                                 {
                             ?>
                             <li><a href="#admin" content_id="admin">User Admin</a></li>
-                            <li><a href="#manage" content_id="manage">Manage Items</a></li>
-                            <li><a href="#logs" content_id="logs">Logs</a></li>
-                            <li><a href="#temps" content_id="temps">Temps</a></li>
+                            <?php //<li><a href="#manage" content_id="manage">Manage Items</a></li>?>
+                            <?php //<li><a href="#logs" content_id="logs">Logs</a></li>?>
+                            <?php //<li><a href="#temps" content_id="temps">Temps</a></li>?>
                             <?php
                                 }
                             ?>
                         </ul>
                         <ul class="nav pull-right">
-                            <li><a href="#"><?=$cn?> (<span id="credits"></span> credits)</a></li>
+                            <li><a href="#"><?=htmlentities($cn)?> (<span id="credits"></span> credits)</a></li>
                         </ul>
                     </div>
                 </div>
@@ -155,7 +158,7 @@
                 <a href="https://github.com/ComputerScienceHouse/WebDrink/issues">here</a>. For any issues with the
                 server, submit them <a href="https://github.com/ComputerScienceHouse/Drink-JS/issues">here</a>.
             </div>
-            <div class="alert hide" id="websocket_status_alert">
+            <div class="alert" id="websocket_status_alert">
                 <strong>Warning!</strong> Web socket not connected!
             </div>
             <div class="alert alert-error hide" id="invalid_ibutton">

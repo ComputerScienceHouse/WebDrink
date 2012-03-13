@@ -54,7 +54,10 @@ $(document).ready(function(){
 
                     if(obj.status == 'true'){
                         $('#curr_credits').html(obj.credits);
-                        $('#credits').html(obj.credits);
+                        if(window.current_user == uid){
+                            $('#credits').html(obj.credits);
+                        }
+
                     } else {
                         //console.log('error');
                     }
