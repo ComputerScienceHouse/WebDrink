@@ -133,4 +133,20 @@ class lib_models_machineModel extends lib_models_baseModel
         }
     }
 
+    public function get_machine_for_id($machine_id)
+    {
+        $sql = "SELECT * FROM machines WHERE machine_id=".$machine_id;
+
+        $res = $this->query($sql);
+
+        if($res != false)
+        {
+            return $this->get_one();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

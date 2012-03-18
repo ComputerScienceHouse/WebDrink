@@ -26,6 +26,7 @@
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="<?=site_url('js/highcharts/js/highcharts.js')?>" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/ext-core/3.1.0/ext-core-debug.js" type="text/javascript"></script>
         <script src="<?=site_url('css/bootstrap/js/bootstrap-transition.js')?>" type="text/javascript"></script>
         <script src="<?=site_url('css/bootstrap/js/bootstrap-alert.js')?>" type="text/javascript"></script>
@@ -43,6 +44,8 @@
         <script type="text/javascript">
             var page_data = <?=$page_data?>;
             var pending_drop = null;
+            var get_machines = '<?=site_url('api/get_machines')?>';
+            var get_temps = '<?=site_url('api/get_machine_temp/')?>';
         </script>
         <script type="text/javascript" src="<?=site_url('js/templates.js')?>"></script>
         <script type="text/javascript" src="<?=site_url('js/handlebars.js')?>"></script>
@@ -56,6 +59,7 @@
         <script type="text/javascript" src="<?=site_url('js/admin.js')?>"></script>
         <script type="text/javascript">
             window.current_user = '<?=$_SESSION['drink_loggedIn']['uid']?>';
+
         </script>
         <?php
             }
@@ -183,30 +187,49 @@
                 {
             ?>
             <div class="hide page_content" id="admin">
-                <div class="row">
-                    <div class="span12">
-                        <h2>Manage Users</h2>
-                        <hr>
-                        <form class="form-search well" id="search_user">
-                            <input type="text" class="input-medium search-query" placeholder="CSH username" id="username" name="username">
-                            <button type="submit" class="btn">Search</button>
-                        </form>
-                        <div class="well hide" id="search_user_results">
-                            <form class="form-inline" id="manage_user_form">
-                                <h3 id="username_header"></h3>
-                                <label class="form-inline"><span id="curr_credits"></span></label>
-                                <input type="number" name="credits" id="credit_input" value="0" username="">
-                                <select name="edit_type" id="edit_type">
-                                    <option value="add">Add Credits</option>
-                                    <option value="fixed">Fix Amount</option>
-                                </select>
-                                <input type="submit" value="Submit" class="btn btn-success">
+                <hr>
+                <ul class="nav nav-pills" id="admin-nav">
+                    <li class="active"><a href="#user-admin" page_id="user-admin">User Admin</a></li>
+                    <li><a href="#temps" page_id="temps">Machine Temps</a></li>
+                </ul>
+                <hr>
+                <div class="admin-page" id="user-admin">
+                    <div class="row">
+                        <div class="span12">
+                            <h2>Manage Users</h2>
+                            <hr>
+                            <form class="form-search well" id="search_user">
+                                <input type="text" class="input-medium search-query" placeholder="CSH username" id="username" name="username">
+                                <button type="submit" class="btn">Search</button>
                             </form>
+                            <div class="well hide" id="search_user_results">
+                                <form class="form-inline" id="manage_user_form">
+                                    <h3 id="username_header"></h3>
+                                    <label class="form-inline"><span id="curr_credits"></span></label>
+                                    <input type="number" name="credits" id="credit_input" value="0" username="">
+                                    <select name="edit_type" id="edit_type">
+                                        <option value="add">Add Credits</option>
+                                        <option value="fixed">Fix Amount</option>
+                                    </select>
+                                    <input type="submit" value="Submit" class="btn btn-success">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hide admin-page" id="temps">
+                    <div class="row">
+                        <div class="span12">
+                            <h2>Machine Temps</h2>
+                            <hr>
+                            <div id="bigdrink_temps"></div>
+                            <div id="littledrink_temps"></div>
+                            <div id="snack_temps"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hide page_content" id="manage">
+            <!--<div class="hide page_content" id="manage">
                 <div class="row">
                     <div class="span12">
                         <h2>Manage Items</h2>
@@ -226,10 +249,11 @@
                         <h2>Drink Temps</h2>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <?php
                 }
             ?>
+            <hr>
             <footer>
                 <div class="row">
                     <div class="span4">

@@ -6,6 +6,23 @@
  * To change this template use File | Settings | File Templates.
  */
 $(document).ready(function(){
+    var charts = {};
+
+    $('#admin-nav li > a').on('click', function(){
+        console.log($(this));
+
+        if(!($(this).parent().hasClass('active'))){
+            $('#admin-nav li.active').removeClass('active');
+
+            $(this).parent().addClass('active');
+
+            $('.admin-page').css('display', 'none');
+
+            $('.admin-page#' + $(this).attr('page_id')).css('display', 'block');
+        }
+        return false;
+    });
+
     $('#search_user').on('submit', function(){
         var results = $('#search_user_results');
         if($('#username').val().length > 0){
@@ -103,5 +120,50 @@ $(document).ready(function(){
             params: form_data
         });
 
+    });
+
+    // get the machines to make the graphs
+    $.ajax({
+        url: get_machines,
+        dataType: 'json',
+        success: function(data){
+            if(data.status == true){
+                for(var i = 0; i < data.machines.length; i++){
+
+                    var machine = data.machines[i];
+                    console.log(machine);
+                    $.ajax({
+                        url: get_temps + machine.machine_id,
+                        dataType: 'json',
+                        async: false,
+                        success: function(temp_data){
+                            if(temp_data.status == true){
+                                console.log(temp_data);
+                                var tmp = new Highcharts.Chart({
+                                    chart: {
+                                        renderTo: temp_data.name + '_temps',
+                                        type: 'line'
+                                    },
+                                    title: {
+                                        text: machine.display_name
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: 'Temperature'
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: machine.display_name,
+                                            data: temp_data.temp
+                                        }
+                                    ]
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
     });
 });

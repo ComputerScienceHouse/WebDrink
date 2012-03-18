@@ -13,6 +13,7 @@ class lib_controllers_main extends lib_controllers_baseController
 
     public function index()
     {
+
         $rendered_data['machines'] = $this->machine_model->get_machines_with_slots();
         $rendered_data['ibutton'] = $this->drink->get_user_ibutton($_SERVER['WEBAUTH_USER']);
         $rendered_data['search_user'] = site_url('admin/get_user_for_uid');

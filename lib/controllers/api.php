@@ -13,6 +13,13 @@ class lib_controllers_api extends lib_controllers_baseController
         parent::__construct();
     }
 
+    public function get_machines()
+    {
+        $machines = $this->machine_model->get_all_machines();
+        header('Content-Type: application/json');
+        echo json_encode(array('status' => true, 'machines' => $machines));
+    }
+
     public function get_user_drops($username)
     {
         $drops = $this->user_model->get_user_drops($username);
@@ -34,16 +41,37 @@ class lib_controllers_api extends lib_controllers_baseController
         echo json_encode($money_log);
     }
 
-    public function get_temps_for_machine($machine_alias)
-    {
-
-    }
-
     public function get_all_temps()
     {
         $temps = $this->temp_model->get_temps();
         header('Content-Type: application/json');
         echo json_encode($temps);
+    }
+
+    public function get_machine_temp($machine_id)
+    {
+        $machine = $this->machine_model->get_machine_for_id($machine_id);
+
+        if($machine !== false)
+        {
+
+            $machine_temps = array_reverse($this->temp_model->get_temps_for_machine($machine_id, 300));
+
+            $temp_data = array();
+            foreach($machine_temps as $temp)
+            {
+                $temp_data[] = array($temp['time'], (float)$temp['temp']);
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode(array('status' => true, 'name' => $machine['name'], 'temp' => $temp_data));
+
+        }
+        else
+        {
+            header('Content-Type: application/json');
+            echo json_encode(array('status' => false, 'msg' => 'Machine does not exist'));
+        }
     }
 
     public function get_slot_data($slot_num, $machine_alias)
