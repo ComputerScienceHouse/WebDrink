@@ -46,6 +46,11 @@
             var pending_drop = null;
             var get_machines = '<?=site_url('api/get_machines')?>';
             var get_temps = '<?=site_url('api/get_machine_temp/')?>';
+            var get_items = '<?=site_url('api/get_items')?>';
+            var new_item = '<?=site_url('admin/add_new_item')?>';
+            var remove_item = '<?=site_url('admin/remove_item')?>';
+            var item_details = '<?=site_url('admin/get_item_details')?>';
+            var edit_item = '<?=site_url('admin/edit_item')?>';
         </script>
         <script type="text/javascript" src="<?=site_url('js/templates.js')?>"></script>
         <script type="text/javascript" src="<?=site_url('js/handlebars.js')?>"></script>
@@ -79,9 +84,6 @@
                                 {
                             ?>
                             <li><a href="#admin" content_id="admin">User Admin</a></li>
-                            <?php //<li><a href="#manage" content_id="manage">Manage Items</a></li>?>
-                            <?php //<li><a href="#logs" content_id="logs">Logs</a></li>?>
-                            <?php //<li><a href="#temps" content_id="temps">Temps</a></li>?>
                             <?php
                                 }
                             ?>
@@ -157,6 +159,28 @@
                     Dropping in <span id="drop_countdown"></span>s...
                 </div>
             </div>
+            <div class="modal fade" id="edit_item_modal">
+                <div class="modal-header">
+
+                </div>
+                <div class="modal-body" id="edit_item_modal_body">
+                    <form class="form-search well" id="edit_item">
+                        <div class="control-group">
+                            <label class="control-label" for="available">Item Name</label>
+                            <div class="controls">
+                                <input type="text" name="item_name" id="item_name">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="available">Item Price</label>
+                            <div class="controls">
+                                <input type="number" name="item_price" id="item_price" value="0" min="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Save</button>
+                    </form>
+                </div>
+            </div>
             <div class="alert alert-info">
                 <strong>Welcome to WebDrink!</strong> For any bugs with the web interface, submit them
                 <a href="https://github.com/ComputerScienceHouse/WebDrink/issues">here</a>. For any issues with the
@@ -191,6 +215,7 @@
                 <ul class="nav nav-pills" id="admin-nav">
                     <li class="active"><a href="#user-admin" page_id="user-admin">User Admin</a></li>
                     <li><a href="#temps" page_id="temps">Machine Temps</a></li>
+                    <li><a href="#items" page_id="items">Manage Items</a></li>
                 </ul>
                 <hr>
                 <div class="admin-page" id="user-admin">
@@ -228,28 +253,35 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--<div class="hide page_content" id="manage">
-                <div class="row">
-                    <div class="span12">
-                        <h2>Manage Items</h2>
+                <div class="hide admin-page" id="items">
+                    <div class="row">
+                        <div class="span12">
+                            <h2>Manage Items</h2>
+                            <hr>
+                            <h3>New Item</h3>
+                            <form class="form-search well" id="add_item">
+                                <div class="control-group">
+                                    <label class="control-label" for="available">Item Name</label>
+                                    <div class="controls">
+                                        <input type="text" name="item_name" id="item_name">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="available">Item Price</label>
+                                    <div class="controls">
+                                        <input type="number" name="item_price" id="item_price" value="0" min="0">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn">Add</button>
+                            </form>
+                            <hr>
+                            <div id="drink_item_list">
+
+                            </div>
+                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hide page_content" id="logs">
-                <div class="row">
-                    <div class="span12">
-                        <h2>Drink Logs</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="hide page_content" id="temps">
-                <div class="row">
-                    <div class="span12">
-                        <h2>Drink Temps</h2>
-                    </div>
-                </div>
-            </div>-->
             <?php
                 }
             ?>

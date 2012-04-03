@@ -27,8 +27,9 @@ class lib_controllers_admin extends lib_controllers_baseController
             
     }
 
-    public function get_item_details($item_id)
+    public function get_item_details()
     {
+        $item_id = $this->input->post('item_id');
         $res = $this->item_model->get_item_details($item_id);
 
         if($res != false)
@@ -245,7 +246,8 @@ class lib_controllers_admin extends lib_controllers_baseController
 
                 if($res != false)
                 {
-                    echo json_encode(array('status' => 'true', 'item' => $res));
+                    $items = $this->item_model->get_all_items();
+                    echo json_encode(array('status' => 'true', 'items' => $items));
                 }
                 else
                 {
@@ -260,8 +262,6 @@ class lib_controllers_admin extends lib_controllers_baseController
         if($this->auth)
         {
             $item_id = $this->input->post('item_id');
-
-            printr($item_id);
 
             $res = $this->item_model->remove_item($item_id);
 
@@ -300,7 +300,8 @@ class lib_controllers_admin extends lib_controllers_baseController
 
                 if($res)
                 {
-                    echo json_encode(array('status' => 'true'));
+                    $items = $this->item_model->get_all_items();
+                    echo json_encode(array('status' => 'true', 'items' => $items));
                 }
                 else
                 {

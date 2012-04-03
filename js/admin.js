@@ -7,6 +7,7 @@
  */
 $(document).ready(function(){
     var charts = {};
+    var editing_item_id = null;
 
     $('#admin-nav li > a').on('click', function(){
         console.log($(this));
@@ -122,6 +123,159 @@ $(document).ready(function(){
 
     });
 
+    $('#add_item').on('submit', function(){
+        var items = {},
+            form = $(this);
+
+        form.find('input[type="text"], input[type="number"]').each(function(){
+            items[$(this).attr('name')] = $(this).val();
+        });
+
+        Ext.Ajax.request({
+            url: new_item,
+            success: function(response, opts){
+                var obj = Ext.decode(response.responseText);
+
+                if(obj.status == 'true'){
+                    console.log(obj);
+
+                    parse_items(obj.items);
+                    setup_item_listeners();
+
+                    form.find('input[type="text"], input[type="number"]').val("");
+
+                }
+            },
+            failure: function(repsonse, opts){
+
+            },
+            params: items
+        });
+
+        return false;
+    });
+
+    $('input:button[btn-action="edit_item"]').on('click', function(){
+
+    });
+
+    function setup_item_listeners(){
+        $('input[btn-action="remove_item"]').on('click', function(){
+            console.log('remove');
+
+            var item_id = $(this).attr('item_id'),
+                item = $(this).parent().parent();
+
+            Ext.Ajax.request({
+                url: remove_item,
+                success: function(response, opts){
+                    var obj = Ext.decode(response.responseText);
+                    console.log(obj);
+                    if(obj.status == 'true'){
+                        console.log(item);
+                        item.remove();
+                    }
+                },
+                failure: function(response, opts){
+
+                },
+                params: {item_id: item_id}
+            });
+        });
+
+        $('input[btn-action="edit_item"]').on('click', function(){
+            editing_item_id = $(this).attr('item_id');
+            console.log("edit");
+            Ext.Ajax.request({
+                url: item_details,
+                success: function(response, opts){
+                    var obj = Ext.decode(response.responseText);
+
+                    if(obj.status == 'true'){
+                        $('#edit_item').find('input[name="item_name"]').val(obj.item.item_name);
+                        $('#edit_item').find('input[name="item_price"]').val(obj.item.item_price);
+
+
+                        $('#edit_item_modal').modal();
+                    }
+                },
+                failure: function(response, opts){
+
+                },
+                params: {item_id: editing_item_id}
+            })
+        });
+
+
+    }
+
+    $('#edit_item').on('submit', function(){
+        var items = {},
+            form = $(this);
+
+        form.find('input[type="text"], input[type="number"]').each(function(){
+            items[$(this).attr('name')] = $(this).val();
+        });
+
+        items.item_id = editing_item_id;
+
+        Ext.Ajax.request({
+            url: edit_item,
+            success: function(response, opts){
+                var obj = Ext.decode(response.responseText);
+
+                if(obj.status == 'true'){
+                    console.log(obj);
+
+                    parse_items(obj.items);
+                    setup_item_listeners();
+
+                    form.find('input[type="text"], input[type="number"]').val("");
+                    $('#edit_item_modal').modal('hide');
+                }
+            },
+            failure: function(repsonse, opts){
+
+            },
+            params: items
+        });
+
+        return false;
+    });
+
+    function get_machine_temp(machine){
+        $.ajax({
+            url: get_temps + machine.machine_id,
+            dataType: 'json',
+            
+            success: function(temp_data){
+                if(temp_data.status == true){
+                    //console.log(temp_data);
+                    var tmp = new Highcharts.Chart({
+                        chart: {
+                            renderTo: temp_data.name + '_temps',
+                            type: 'line'
+                        },
+                        title: {
+                            text: machine.display_name
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Temperature'
+                            }
+                        },
+                        series: [
+                            {
+                                name: machine.display_name,
+                                data: temp_data.temp
+                            }
+                        ]
+                    });
+                }
+            }
+        });
+    }
+
     // get the machines to make the graphs
     $.ajax({
         url: get_machines,
@@ -129,41 +283,21 @@ $(document).ready(function(){
         success: function(data){
             if(data.status == true){
                 for(var i = 0; i < data.machines.length; i++){
-
-                    var machine = data.machines[i];
-                    console.log(machine);
-                    $.ajax({
-                        url: get_temps + machine.machine_id,
-                        dataType: 'json',
-                        async: false,
-                        success: function(temp_data){
-                            if(temp_data.status == true){
-                                console.log(temp_data);
-                                var tmp = new Highcharts.Chart({
-                                    chart: {
-                                        renderTo: temp_data.name + '_temps',
-                                        type: 'line'
-                                    },
-                                    title: {
-                                        text: machine.display_name
-                                    },
-                                    yAxis: {
-                                        title: {
-                                            text: 'Temperature'
-                                        }
-                                    },
-                                    series: [
-                                        {
-                                            name: machine.display_name,
-                                            data: temp_data.temp
-                                        }
-                                    ]
-                                });
-                            }
-                        }
-                    });
+                    get_machine_temp(data.machines[i]);
                 }
             }
+        }
+    });
+
+    $.ajax({
+        url: get_items,
+        dataType: 'json',
+        success: function(data){
+            if(data.status == 'true'){
+                parse_items(data.items);
+                setup_item_listeners();
+            }
+
         }
     });
 });

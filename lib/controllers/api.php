@@ -92,4 +92,11 @@ class lib_controllers_api extends lib_controllers_baseController
             echo json_encode(array('status' => false));
         }
     }
+
+    public function get_items()
+    {
+        $items = $this->item_model->get_all_items();
+
+        echo json_encode(array('status' => 'true', 'items' => $items));
+    }
 }

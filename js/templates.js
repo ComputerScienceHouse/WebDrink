@@ -81,6 +81,29 @@ var user_drops = ''+
         '</table>'+
     '</div>';
 
+var machine_items = ''+
+'<table class="table table-condensed table-striped"">'+
+    '<thead>'+
+        '<tr>'+
+            '<th>Item Name</th>'+
+            '<th>Item Price</th>'+
+            '<th>Actions</th>'+
+        '</tr>'+
+    '</thead>'+
+    '<tbody>'+
+        '{{#each items}}'+
+        '<tr>'+
+            '<td>{{item_name}}</td>'+
+            '<td>{{item_price}}</td>'+
+            '<td>'+
+                '<input type="button" class="btn btn-primary" btn-action="edit_item" item_id="{{item_id}}" value="Edit">'+
+                '<input type="button" class="btn btn-danger" btn-action="remove_item" item_id="{{item_id}}" value="Remove">'+
+            '</td>'+
+        '</tr>'+
+        '{{/each}}'+
+    '</tbody>'+
+'</table>';
+
 function process_machines(sel, machine_data){
     // compile machines
     var machines = Handlebars.compile(machine_temp);
@@ -159,4 +182,11 @@ function get_user_drops(selector){
 
         }
     })
+}
+
+function parse_items(item_list){
+    var items = Handlebars.compile(machine_items);
+    items = items({items: item_list});
+
+    $('#drink_item_list').html(items);
 }
