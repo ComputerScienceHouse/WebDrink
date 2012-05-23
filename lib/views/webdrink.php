@@ -147,8 +147,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-success" btn-action="submit_drop_delay" value="Drop">
                     <input type="button" class="btn btn-danger" btn-action="cancel_drop" value="Cancel">
+                    <input type="button" class="btn btn-success" btn-action="submit_drop_delay" value="Drop">
                 </div>
             </div>
             <div class="modal fade" id="dropping_modal">
@@ -300,3 +300,4 @@
         </div>
     </body>
 </html>
+<!-- vim: set et ts=4 sts=4 sw=4: -->
