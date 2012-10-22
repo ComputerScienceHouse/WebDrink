@@ -1,2 +1,10 @@
 lib/config/drink_conf.json
 lib/config/db_config.json
+*.phpproj
+*.puo
+*.suo
+*.sln*
+php.ini
+.httpd.conf
+js/ext-core-debug.js
+js/jquery.min.js
