@@ -137,7 +137,7 @@
                     <h3>Drop Delay</h3>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="drop_delay_form">
                         <div class="control-group">
                             <label for="drop_delay">Drop Delay</label>
                             <div class="controls">

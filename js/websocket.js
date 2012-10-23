@@ -51,12 +51,22 @@ function WebsocketConn(ibutton){
 WebsocketConn.prototype.init_click_events = function(){
     var self = this;
 
+	// Clicking the button for submitting a drop
     $('#drop_modal input:button[btn-action="submit_drop_delay"]').on('click', function(){
         var drop_data = pending_drop;
 
         var delay = $(this).parent().parent().find('input[type="number"]').val();
 
         self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
+    });
+
+    // Hitting 'enter' on the delay field
+    $('#drop_delay_form').on('submit', function () {
+       	var drop_data = pending_drop;
+
+       	var delay = $(this).parent().parent().find('input[type="number"]').val();
+
+       	self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
     });
 
     $('#drop_modal input:button[btn-action="cancel_drop"]').on('click', function(){
