@@ -147,6 +147,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+					<div class="form-feedback">
+					</div>
                     <input type="button" class="btn btn-danger" btn-action="cancel_drop" value="Cancel">
                     <input type="button" class="btn btn-success" btn-action="submit_drop_delay" value="Drop">
                 </div>
