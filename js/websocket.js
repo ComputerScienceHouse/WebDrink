@@ -56,8 +56,12 @@ WebsocketConn.prototype.init_click_events = function(){
         var drop_data = pending_drop;
 
         var delay = $(this).parent().parent().find('input[type="number"]').val();
-
-        self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
+		if(~~delay >= 0){
+        	self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
+		}
+		else{
+			$(this).closest('#drop_modal').find('.form-feedback').html("That's in the past now, you retard.");
+		}
     });
 
     // Hitting 'enter' on the delay field
@@ -65,9 +69,14 @@ WebsocketConn.prototype.init_click_events = function(){
        	var drop_data = pending_drop;
 
        	var delay = $(this).parent().parent().find('input[type="number"]').val();
-
-       	self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
-    });
+	
+		if(~~delay >= 0){	
+  			self.drop(drop_data.slot_num, drop_data.machine_alias, delay);
+    	}
+		else{
+			$(this).closest('#drop_modal').find('.form-feedback').html("That's in the past now, you retard.");
+		}
+	});
 
     $('#drop_modal input:button[btn-action="cancel_drop"]').on('click', function(){
         $('#drop_modal').modal('hide');
